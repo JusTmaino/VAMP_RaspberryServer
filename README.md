@@ -14,14 +14,14 @@ Une fois la carte MicroSD prête, on peut l'insérer dans le Raspberry Pi à l'e
 
 2. Afin de connecter le raspberry à votre réseau, créer un fichier nommé `wpa_supplicant.conf` qui contient la configuration de votre réseau, coller le code ci-dessous et placer le sur la racine de la carte SD.
 
-```sh
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-network= {
-	ssid="SSID"
-	psk="PASSWORD"
-}
-```
+	```sh
+	ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+	update_config=1
+	network= {
+		ssid="SSID"
+		psk="PASSWORD"
+	}
+	```
 
 3.	Ouvrir le terminal et taper la commande suivante en remplaçant `ip-raspberry` par l'adresse ip sur laquelle le raspberry est connecté à votre réseau
 
@@ -83,4 +83,39 @@ Depuis le terminal de raspberry
 	$ cd VAMP_RaspberryServer/can-test
 
 	$ ./candump can0
+	```
+
+## Mise en place du serveur en NodeJs
+
+1.	Pour télécharger et installer Node.js, utilisez les commandes suivantes:
+
+	```sh
+	$ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+	$ sudo apt-get install -y nodejs
+	```
+
+2.	Lancer le serveur sur la raspberry en utlisant les commandes suivantes:
+
+	```sh
+	$ git clone https://github.com/JusTmaino/VAMP_RaspberryServer
+
+	$ cd VAMP_RaspberryServer/
+
+	$ npm install
+
+	$ npm install -g nodemon
+
+	$ nodemon webserver.js
+	```
+
+3. Afin d'automatiser le lancement du serveur après le démarrage de la raspberry, utilisez les commandes suivantes:
+
+	```sh
+	$ sudo nano /etc/rc.local
+	```
+
+	coller le code ci-dessous à la fin du fichiers
+
+	```sh
+	nodemon /home/pi/VAMP_RaspberryServer/webserver.js
 	```

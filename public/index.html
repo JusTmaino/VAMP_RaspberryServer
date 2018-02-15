@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1></h1>
+<p><input type="checkbox" id="lock"></p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+var socket = io();
+window.addEventListener("load", function(){
+  var lightbox = document.getElementById("lock");
+  lightbox.addEventListener("change", function() {
+    socket.emit("lock", Number(this.checked));
+  });
+});
+socket.on('lock', function (data) {
+  document.getElementById("lock").checked = data;
+  socket.emit("lock", data);
+});
+</script>
+</html>
+</body>
+</html>
